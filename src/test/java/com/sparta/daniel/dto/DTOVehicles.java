@@ -63,15 +63,6 @@ public class DTOVehicles extends ParentDTO {
     @JsonProperty("consumables")
     private String consumables;
 
-//    // Array of Links to Film
-//    @JsonProperty("films")
-//    private List<DTOFilm> films;
-//
-//    // Array of Links to People
-//    @JsonProperty("pilots")
-//    private List<DTOPeople> pilots;
-
-
     // Array of Links to Film
     @JsonProperty("films")
     private List<String> films;

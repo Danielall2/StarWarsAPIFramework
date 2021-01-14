@@ -168,11 +168,16 @@ public class FrameworkTests {
         @Test
         @DisplayName("Testing number of words in String method")
         void testNumberOfWordsInString() {
-
             int numberOfWords = dtoPeople.checkNumberOfWordsInString(dtoPeople.getName());
             System.out.println("");
             System.out.println("Number of words in name : " + numberOfWords);
             Assertions.assertTrue(numberOfWords > 0);
+        }
+
+        @Test
+        @DisplayName("Testing capital letter for each name checker")
+        void testCapitalLetterForEachName() {
+            Assertions.assertTrue(dtoPeople.checkIfAllNamesStartWithCapitalLetter(dtoPeople.getName()));
         }
 
         @Test

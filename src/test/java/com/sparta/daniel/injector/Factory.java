@@ -3,7 +3,7 @@ package com.sparta.daniel.injector;
 import com.sparta.daniel.dto.*;
 import com.sparta.daniel.generalDTO.*;
 
-public class Factory {
+public final class Factory {
 
     private static final String INITIAL_URL = "https://swapi.dev/api/";
     private static final String END_PATTERN_ONE = "(\\/[0-9])\\/";

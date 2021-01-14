@@ -55,15 +55,6 @@ public class DTOPlanets extends ParentDTO {
     @JsonProperty("surface_water")
     private String surface_water;
 
-//    // Array of Links to People
-//    @JsonProperty("residents")
-//    private List<DTOPeople> residents;
-//
-//    // Array of Links to Film
-//    @JsonProperty("films")
-//    private List<DTOFilm> films;
-
-
     // Array of Links to People
     @JsonProperty("residents")
     private List<String> residents;

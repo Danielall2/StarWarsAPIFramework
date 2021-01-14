@@ -57,27 +57,6 @@ public class DTOPeople extends ParentDTO {
     private String skin_color;
 
     // Link to Planets
-//    @JsonProperty("homeworld")
-//    private DTOPlanets homeworld;
-//
-//    // Array of Links to Film
-//    @JsonProperty("films")
-//    private List<DTOFilm> films;
-//
-//    // Array of Links to Species
-//    @JsonProperty("species")
-//    private List<DTOSpecies> species;
-//
-//    // Array of Links to Starships
-//    @JsonProperty("starships")
-//    private List<DTOStarships> starships;
-//
-//    // Array of Links to Vehicles
-//    @JsonProperty("vehicles")
-//    private List<DTOVehicles> vehicles;
-
-
-    // Link to Planets
     @JsonProperty("homeworld")
     private String homeworld;
 

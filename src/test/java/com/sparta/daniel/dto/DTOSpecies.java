@@ -56,19 +56,6 @@ public class DTOSpecies extends ParentDTO {
     @JsonProperty("language")
     private String language;
 
-//    // Link
-//    @JsonProperty("homeworld")
-//    private DTOPlanets homeworld;
-//
-//    // Array of Links to People
-//    @JsonProperty("people")
-//    private List<DTOPeople> people;
-//
-//    // Array of Links to Film
-//    @JsonProperty("films")
-//    private List<DTOFilm> films;
-
-
     // Link
     @JsonProperty("homeworld")
     private String homeworld;

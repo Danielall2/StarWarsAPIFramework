@@ -47,27 +47,6 @@ public class DTOFilm extends ParentDTO {
     @JsonProperty("release_date")
     private String release_date;
 
-//    // Array of Links to Species
-//    @JsonProperty("species")
-//    private List<DTOSpecies> species;
-//
-//    // Array of Links to Starships
-//    @JsonProperty("starships")
-//    private List<DTOStarships> starships;
-//
-//    // Array of Links to Vehicles
-//    @JsonProperty("vehicles")
-//    private List<DTOVehicles> vehicles;
-//
-//    // Array of Links to People
-//    @JsonProperty("characters")
-//    private List<DTOPeople> characters;
-//
-//    // Array of Links to Planets
-//    @JsonProperty("planets")
-//    private List<DTOPlanets> planets;
-
-
     // Array of Links to Species
     @JsonProperty("species")
     private List<String> species;
