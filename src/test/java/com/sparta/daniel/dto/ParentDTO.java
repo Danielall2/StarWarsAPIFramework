@@ -14,6 +14,24 @@ public abstract class ParentDTO {
         return words.length;
     }
 
+    public boolean checkIfFirstLetterIsCapital(String string) {
+        return string.substring(0,1).equals(string.substring(0,1).toUpperCase());
+    }
+
+    public boolean checkIfAllNamesStartWithCapitalLetter(String string) {
+        String[] names = string.split("\\\\s|,|\\\\.|-");
+
+        int counter = 0;
+
+        for (String name : names) {
+            if (checkIfFirstLetterIsCapital(name)) {
+                counter++;
+            }
+        }
+
+        return (counter == names.length);
+    }
+
     public boolean checkWhetherStarWarsDateFormattedProperly(String starWarsDate) {
         boolean trueOrFalse = false;
         int number = -5;
