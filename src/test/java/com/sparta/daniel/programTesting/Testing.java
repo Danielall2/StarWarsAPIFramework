@@ -112,7 +112,7 @@ public class Testing {
         String heightOfChewbacca = "";
         List<DTOSpecies> speciesOfChewbacca = null;
 
-        String name = "Luke Skywalker";
+        String name = "Chewbacca";
 
         System.out.println();
         System.out.println("---Everyone in Star Wars---");
@@ -139,6 +139,5 @@ public class Testing {
         }
 
     }
-
 
 }

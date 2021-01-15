@@ -5,7 +5,7 @@ import com.sparta.daniel.generalDTO.*;
 
 public final class Factory {
 
-    private static final String INITIAL_URL = "https://swapi.dev/api/";
+//    private static final String INITIAL_URL = "https://swapi.dev/api/";
     private static final String END_PATTERN_ONE = "(\\/[0-9])\\/";
     private static final String END_PATTERN_TWO = "[0-9][0-9]\\/";
     private static final String PAGE_PATH = "=([0-9])+\\/";

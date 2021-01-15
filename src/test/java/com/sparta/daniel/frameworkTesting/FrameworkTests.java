@@ -6,8 +6,10 @@ import com.sparta.daniel.generalDTO.*;
 import com.sparta.daniel.injector.Injector;
 import org.junit.jupiter.api.*;
 
+import java.net.http.HttpHeaders;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class FrameworkTests {
 
@@ -98,6 +100,22 @@ public class FrameworkTests {
         @DisplayName("Testing Status Code is 200")
         void testConnection() {
             Assertions.assertEquals(200, ConnectionManager.getStatusCode("people/1/"));
+        }
+
+        @Test
+        @DisplayName("Testing Headers")
+        void testHeaders() {
+            Map<String, List<String>> headers = ConnectionManager.getHeaders("people/1/").map();
+            System.out.println(headers);
+        }
+
+        @Test
+        @DisplayName("Test Server")
+        void testServer() {
+            Map<String, List<String>> headers = ConnectionManager.getHeaders("people/1/").map();
+            String serverFromHeaders = headers.get("Server").get(0);
+            String server  = "nginx/1.16.1";
+            Assertions.assertEquals(serverFromHeaders, server);
         }
 
     }
