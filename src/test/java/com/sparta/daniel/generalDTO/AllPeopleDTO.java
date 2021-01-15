@@ -21,15 +21,13 @@ import java.util.List;
 
 public class AllPeopleDTO extends ParentDTO {
 
+    public List<DTOPeople> dtoPeopleList = new ArrayList<>();
     @JsonProperty("count")
     private int count;
-
     @JsonProperty("next")
     private String next;
-
     @JsonProperty("previous")
     private String previous;
-
     @JsonProperty("results")
     private List<JSONObject> results;
 
@@ -54,10 +52,47 @@ public class AllPeopleDTO extends ParentDTO {
 
 
     public List<DTOPeople> getAllPeopleAsListDTOs() {
-        List<DTOPeople> dtoPeopleList = new ArrayList<>();
+        AllPeopleDTO allPeopleDTOTemporary;
+//        List<DTOPeople> dtoPeopleList = new ArrayList<>();
 
-        for (JSONObject json : results) {
-            dtoPeopleList.add((DTOPeople) Injector.injectDTOGeneric((String) json.get("url")));
+//        for (JSONObject json : results) {
+//            dtoPeopleList.add((DTOPeople) Injector.injectDTOGeneric((String) json.get("url")));
+//        }
+
+        if (dtoPeopleList.size() < count) {
+            for (JSONObject json : results) {
+                dtoPeopleList.add((DTOPeople) Injector.injectDTOGeneric((String) json.get("url")));
+            }
+
+            if (next != null) {
+                allPeopleDTOTemporary = (AllPeopleDTO) Injector.injectDTOGeneric(getNext());
+
+                for (JSONObject json : allPeopleDTOTemporary.getResults()) {
+                    dtoPeopleList.add((DTOPeople) Injector.injectDTOGeneric((String) json.get("url")));
+                }
+
+                allPeopleDTOTemporary = (AllPeopleDTO) Injector.injectDTOGeneric(allPeopleDTOTemporary.getNext());
+
+
+//                while (allPeopleDTOTemporary.getNext() != null) {
+
+                while (true) {
+
+
+                    for (JSONObject json : allPeopleDTOTemporary.getResults()) {
+                        dtoPeopleList.add((DTOPeople) Injector.injectDTOGeneric((String) json.get("url")));
+                    }
+
+                    if (allPeopleDTOTemporary.getNext() == null) {
+                        break;
+                    }
+
+                    allPeopleDTOTemporary = (AllPeopleDTO) Injector.injectDTOGeneric(allPeopleDTOTemporary.getNext());
+
+
+                }
+
+            }
         }
 
         return dtoPeopleList;

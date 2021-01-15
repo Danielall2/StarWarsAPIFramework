@@ -21,15 +21,13 @@ import java.util.List;
 
 public class AllFilmsDTO extends ParentDTO {
 
+    public List<DTOFilm> dtoFilmList = new ArrayList<>();
     @JsonProperty("count")
     private int count;
-
     @JsonProperty("next")
     private String next;
-
     @JsonProperty("previous")
     private String previous;
-
     @JsonProperty("results")
     private List<JSONObject> results;
 
@@ -54,10 +52,39 @@ public class AllFilmsDTO extends ParentDTO {
 
 
     public List<DTOFilm> getAllFilmsAsListDTOs() {
-        List<DTOFilm> dtoFilmList = new ArrayList<>();
+        AllFilmsDTO allFilmsDTOTemporary;
+//        List<DTOFilm> dtoFilmList = new ArrayList<>();
 
-        for (JSONObject json : results) {
-            dtoFilmList.add((DTOFilm) Injector.injectDTOGeneric((String) json.get("url")));
+//        if (next == null) {
+//            return dtoFilmList;
+//        }
+
+
+        if (dtoFilmList.size() < count) {
+            for (JSONObject json : results) {
+                dtoFilmList.add((DTOFilm) Injector.injectDTOGeneric((String) json.get("url")));
+            }
+
+            if (next != null) {
+                allFilmsDTOTemporary = (AllFilmsDTO) Injector.injectDTOGeneric(getNext());
+
+                for (JSONObject json : allFilmsDTOTemporary.getResults()) {
+                    dtoFilmList.add((DTOFilm) Injector.injectDTOGeneric((String) json.get("url")));
+                }
+
+                allFilmsDTOTemporary = (AllFilmsDTO) Injector.injectDTOGeneric(getNext());
+
+                while (allFilmsDTOTemporary.getNext() != null) {
+
+                    for (JSONObject json : allFilmsDTOTemporary.getResults()) {
+                        dtoFilmList.add((DTOFilm) Injector.injectDTOGeneric((String) json.get("url")));
+                    }
+
+                    allFilmsDTOTemporary = (AllFilmsDTO) Injector.injectDTOGeneric(allFilmsDTOTemporary.getNext());
+
+                }
+
+            }
         }
 
         return dtoFilmList;

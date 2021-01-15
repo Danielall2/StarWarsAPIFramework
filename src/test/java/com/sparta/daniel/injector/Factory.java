@@ -7,13 +7,12 @@ public final class Factory {
 
     private static final String INITIAL_URL = "https://swapi.dev/api/";
     private static final String END_PATTERN_ONE = "(\\/[0-9])\\/";
-    private static final String END_PATTERN_TWO = "([0-9]+)\\/";
+    private static final String END_PATTERN_TWO = "[0-9][0-9]\\/";
+    private static final String PAGE_PATH = "=([0-9])+\\/";
 
 
-    public static ParentDTO dtoFactory(int n)
-    {
-        switch(n)
-        {
+    public static ParentDTO dtoFactory(int n) {
+        switch (n) {
             case 1:
                 return new DTOPeople();
 
@@ -53,13 +52,11 @@ public final class Factory {
         return null;
     }
 
-    // Not really a factory but want this here
 
     public static int dtoNumberCheck(String url) {
         String substring = url.substring(url.length() - 3);
-//        System.out.println(substring);
 
-        if (substring.matches(END_PATTERN_ONE) || substring.matches(END_PATTERN_TWO)) {
+        if ((substring.matches(END_PATTERN_ONE) || substring.matches(END_PATTERN_TWO)) && !substring.matches(PAGE_PATH)) {
             if (url.contains("people")) {
                 return 1;
             } else if (url.contains("films")) {
