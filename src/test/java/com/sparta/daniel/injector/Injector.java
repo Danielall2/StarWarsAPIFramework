@@ -14,9 +14,6 @@ import java.net.http.HttpResponse;
 
 public class Injector {
 
-    // I want an injector that can return a DTO of any type
-    // Otherwise will need to repeat this for every DTO i have (not a huge issue but repeated code is not good)
-
     public static DTOPeople injectDTOPeople(String url) {
         DTOPeople dtoPeople = new DTOPeople();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -35,7 +32,6 @@ public class Injector {
         return dtoPeople;
     }
 
-    // Could use this inject method for all people if the factory conditions are changed
 
     public static ParentDTO injectDTOGeneric(String url) {
         if (url.contains("https")) {

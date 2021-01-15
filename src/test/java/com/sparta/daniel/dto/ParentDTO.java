@@ -1,8 +1,5 @@
 package com.sparta.daniel.dto;
 
-import java.util.Arrays;
-import java.util.InputMismatchException;
-
 public abstract class ParentDTO {
 
     public ParentDTO() {
@@ -15,7 +12,7 @@ public abstract class ParentDTO {
     }
 
     public boolean checkIfFirstLetterIsCapital(String string) {
-        return string.substring(0,1).equals(string.substring(0,1).toUpperCase());
+        return string.substring(0, 1).equals(string.substring(0, 1).toUpperCase());
     }
 
     public boolean checkIfAllNamesStartWithCapitalLetter(String string) {
@@ -42,7 +39,7 @@ public abstract class ParentDTO {
             System.out.println("Expected Number but found NumberFormatException");
             return false;
         }
-        String endOfDate = starWarsDate.substring(starWarsDate.length()-3, starWarsDate.length());
+        String endOfDate = starWarsDate.substring(starWarsDate.length() - 3);
         return (endOfDate.equals("BBY") || endOfDate.equals("ABY")) && (number > 0);
     }
 

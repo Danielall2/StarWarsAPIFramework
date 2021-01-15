@@ -21,15 +21,13 @@ import java.util.List;
 
 public class AllPlanetsDTO extends ParentDTO {
 
+    List<DTOPlanets> dtoPlanetsList = new ArrayList<>();
     @JsonProperty("count")
     private int count;
-
     @JsonProperty("next")
     private String next;
-
     @JsonProperty("previous")
     private String previous;
-
     @JsonProperty("results")
     private List<JSONObject> results;
 
@@ -54,10 +52,42 @@ public class AllPlanetsDTO extends ParentDTO {
 
 
     public List<DTOPlanets> getAllPlanetsAsListDTOs() {
-        List<DTOPlanets> dtoPlanetsList = new ArrayList<>();
+        AllPlanetsDTO allPlanetsDTOTemporary;
 
-        for (JSONObject json : results) {
-            dtoPlanetsList.add((DTOPlanets) Injector.injectDTOGeneric((String) json.get("url")));
+        if (dtoPlanetsList.size() < count) {
+            for (JSONObject json : results) {
+                dtoPlanetsList.add((DTOPlanets) Injector.injectDTOGeneric((String) json.get("url")));
+            }
+
+            if (next != null) {
+                allPlanetsDTOTemporary = (AllPlanetsDTO) Injector.injectDTOGeneric(getNext());
+
+                for (JSONObject json : allPlanetsDTOTemporary.getResults()) {
+                    dtoPlanetsList.add((DTOPlanets) Injector.injectDTOGeneric((String) json.get("url")));
+                }
+
+                allPlanetsDTOTemporary = (AllPlanetsDTO) Injector.injectDTOGeneric(allPlanetsDTOTemporary.getNext());
+
+
+//                while (allPeopleDTOTemporary.getNext() != null) {
+
+                while (true) {
+
+
+                    for (JSONObject json : allPlanetsDTOTemporary.getResults()) {
+                        dtoPlanetsList.add((DTOPlanets) Injector.injectDTOGeneric((String) json.get("url")));
+                    }
+
+                    if (allPlanetsDTOTemporary.getNext() == null) {
+                        break;
+                    }
+
+                    allPlanetsDTOTemporary = (AllPlanetsDTO) Injector.injectDTOGeneric(allPlanetsDTOTemporary.getNext());
+
+
+                }
+
+            }
         }
 
         return dtoPlanetsList;

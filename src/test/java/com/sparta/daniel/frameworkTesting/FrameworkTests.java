@@ -7,30 +7,37 @@ import com.sparta.daniel.injector.Injector;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class FrameworkTests {
-    DTOFilm dtoFilm;
-    DTOPeople dtoPeople;
-    DTOPlanets dtoPlanets;
-    DTOSpecies dtoSpecies;
-    DTOStarships dtoStarships;
-    DTOVehicles dtoVehicles;
 
-    AllFilmsDTO allFilmsDTO;
-    AllPeopleDTO allPeopleDTO;
-    AllPlanetsDTO allPlanetsDTO;
-    AllSpeciesDTO allSpeciesDTO;
-    AllStarshipsDTO allStarshipsDTO;
-    AllVehiclesDTO allVehiclesDTO;
+    static DTOFilm dtoFilm;
+    static DTOPeople dtoPeople;
+    static DTOPlanets dtoPlanets;
+    static DTOSpecies dtoSpecies;
+    static DTOStarships dtoStarships;
+    static DTOVehicles dtoVehicles;
 
-    @BeforeEach
-    void setup() {
+    static DTOPeople dtoPeopleTwo;
+
+    static AllFilmsDTO allFilmsDTO;
+    static AllPeopleDTO allPeopleDTO;
+    static AllPlanetsDTO allPlanetsDTO;
+    static AllSpeciesDTO allSpeciesDTO;
+    static AllStarshipsDTO allStarshipsDTO;
+    static AllVehiclesDTO allVehiclesDTO;
+
+    @BeforeAll
+    static void setup() {
         dtoFilm = (DTOFilm) Injector.injectDTOGeneric(ConnectionManager.getConnection("films/2/"));
         dtoPeople = (DTOPeople) Injector.injectDTOGeneric(ConnectionManager.getConnection("people/1/"));
         dtoPlanets = (DTOPlanets) Injector.injectDTOGeneric(ConnectionManager.getConnection("planets/4/"));
         dtoSpecies = (DTOSpecies) Injector.injectDTOGeneric(ConnectionManager.getConnection("species/3/"));
         dtoStarships = (DTOStarships) Injector.injectDTOGeneric(ConnectionManager.getConnection("starships/9/"));
         dtoVehicles = (DTOVehicles) Injector.injectDTOGeneric(ConnectionManager.getConnection("vehicles/4/"));
+
+
+        dtoPeopleTwo = (DTOPeople) Injector.injectDTOGeneric(ConnectionManager.getConnection("people/11/"));
 
         // General DTOs
         allFilmsDTO = (AllFilmsDTO) Injector.injectDTOGeneric(ConnectionManager.getConnection("films/"));
@@ -40,7 +47,46 @@ public class FrameworkTests {
         allStarshipsDTO = (AllStarshipsDTO) Injector.injectDTOGeneric(ConnectionManager.getConnection("starships/"));
         allVehiclesDTO = (AllVehiclesDTO) Injector.injectDTOGeneric(ConnectionManager.getConnection("vehicles/"));
 
+    }
 
+    @Test
+    @DisplayName("Example of using methods inside multiple DTOs")
+    void usingMultipleDTOs() {
+
+        System.out.println();
+        System.out.println("Person of interest : " + dtoPeople.getName());
+
+        System.out.println();
+        System.out.println(dtoPeople.getName() + " has been in the following films, and these films have the following planets : ");
+
+        for (DTOFilm film : dtoPeople.getFilmsAsDTOs()) {
+            System.out.println();
+            System.out.println("---Film : " + film.getTitle() + "---");
+            for (DTOPlanets planet : film.getPlanetsListAsDTOs()) {
+                System.out.println(planet.getName());
+            }
+            System.out.println();
+        }
+    }
+
+    @Test
+    @DisplayName("Example of using methods inside multiple DTOs for different character")
+    void usingMultipleDTOsForDifferentCharacter() {
+
+        System.out.println();
+        System.out.println("Person of interest : " + dtoPeopleTwo.getName());
+
+        System.out.println();
+        System.out.println(dtoPeopleTwo.getName() + " has been in the following films, and these films have the following planets : ");
+
+        for (DTOFilm film : dtoPeopleTwo.getFilmsAsDTOs()) {
+            System.out.println();
+            System.out.println("---Film : " + film.getTitle() + "---");
+            for (DTOPlanets planet : film.getPlanetsListAsDTOs()) {
+                System.out.println(planet.getName());
+            }
+            System.out.println();
+        }
     }
 
 
@@ -54,16 +100,7 @@ public class FrameworkTests {
             Assertions.assertEquals(200, ConnectionManager.getStatusCode("people/1/"));
         }
 
-//        @Test
-//        @DisplayName("Testing Headers")
-//        void testHeaders() {
-//            // Not really sure how to test headers generally before getting specific ones which the actual Tests will need to do
-//            //System.out.println(ConnectionManager.getHeaders("people/1/").toString());
-//        }
-
     }
-
-
 
     @Nested
     @DisplayName("Testing whether all DTOs have been populated for one specific URL")
@@ -102,13 +139,12 @@ public class FrameworkTests {
 
     }
 
-
     @Nested
     @DisplayName("Test of DTOPeople Luke Skywalker methods returning DTOs")
     class testingDTOPeopleMethodsReturningDTOs {
 
         // The assumptions and expected values are inherent for Luke Skywalker
-        // Most of these tests fail the the DTOPeople is altered, but the methods to aquiring the data should still be valid.
+        // Most of these tests fail if the DTOPeople is altered, but the methods to acquiring the data are still be valid.
 
         @Test
         void testHomeworld() {
@@ -149,17 +185,16 @@ public class FrameworkTests {
         @Test
         @DisplayName("Test convert created to LocalDate")
         void testCreatedLocalDate() {
-            Assertions.assertEquals(LocalDate.of(2014,12,9), dtoPeople.getCreatedLocalDate());
+            Assertions.assertEquals(LocalDate.of(2014, 12, 9), dtoPeople.getCreatedLocalDate());
         }
 
         @Test
         @DisplayName("Test convert edited to LocalDate")
         void testEditedLocalDate() {
-            Assertions.assertEquals(LocalDate.of(2014,12,20), dtoPeople.getEditedLocalDate());
+            Assertions.assertEquals(LocalDate.of(2014, 12, 20), dtoPeople.getEditedLocalDate());
         }
 
     }
-
 
     @Nested
     @DisplayName("Testing Parent methods")
@@ -169,7 +204,7 @@ public class FrameworkTests {
         @DisplayName("Testing number of words in String method")
         void testNumberOfWordsInString() {
             int numberOfWords = dtoPeople.checkNumberOfWordsInString(dtoPeople.getName());
-            System.out.println("");
+            System.out.println();
             System.out.println("Number of words in name : " + numberOfWords);
             Assertions.assertTrue(numberOfWords > 0);
         }
@@ -190,85 +225,80 @@ public class FrameworkTests {
         @Test
         @DisplayName("Testing that Star Wars date starts with number")
         void testStarWarsDateFormatStart() {
-            System.out.println("");
+            System.out.println();
             System.out.println("I expect NumberFormatException in this test (see below) : ");
             Assertions.assertFalse(dtoPeople.checkWhetherStarWarsDateFormattedProperly("297BBYABY"));
         }
     }
 
     @Nested
-    @DisplayName("Getting Names of everything (Not really a test")
+    @DisplayName("Getting Names of everything")
     class testingGetAll {
 
         @Test
         @DisplayName("Get all Films")
         void getAllFilms() {
-            for (DTOFilm film : allFilmsDTO.getAllFilmsAsListDTOs()) {
+            List<DTOFilm> dtoFilmList = allFilmsDTO.getAllFilmsAsListDTOs();
+            for (DTOFilm film : dtoFilmList) {
                 System.out.println(film.getTitle());
             }
+
+            Assertions.assertEquals(allFilmsDTO.getCount(), dtoFilmList.size());
         }
 
         @Test
         @DisplayName("Get all People")
         void getAllPeople() {
-            for (DTOPeople person : allPeopleDTO.getAllPeopleAsListDTOs()) {
+            List<DTOPeople> dtoPeopleArrayList = allPeopleDTO.getAllPeopleAsListDTOs();
+            for (DTOPeople person : dtoPeopleArrayList) {
                 System.out.println(person.getName());
             }
+
+            Assertions.assertEquals(allPeopleDTO.getCount(), dtoPeopleArrayList.size());
         }
 
         @Test
         @DisplayName("Get all Planets")
         void getAllPlanets() {
-            for (DTOPlanets planet : allPlanetsDTO.getAllPlanetsAsListDTOs()) {
+            List<DTOPlanets> dtoPlanetsList = allPlanetsDTO.getAllPlanetsAsListDTOs();
+            for (DTOPlanets planet : dtoPlanetsList) {
                 System.out.println(planet.getName());
             }
+
+            Assertions.assertEquals(allPlanetsDTO.getCount(), dtoPlanetsList.size());
         }
 
         @Test
         @DisplayName("Get all Species")
         void getAllSpecies() {
-            for (DTOSpecies specimen : allSpeciesDTO.getAllSpeciesAsListDTOs()) {
+            List<DTOSpecies> dtoSpeciesList = allSpeciesDTO.getAllSpeciesAsListDTOs();
+            for (DTOSpecies specimen : dtoSpeciesList) {
                 System.out.println(specimen.getName());
             }
+
+            Assertions.assertEquals(allSpeciesDTO.getCount(), dtoSpeciesList.size());
         }
 
         @Test
         @DisplayName("Get all Starships")
         void getAllStarships() {
-            for (DTOStarships starship : allStarshipsDTO.getAllStarshipsAsListDTOs()) {
+            List<DTOStarships> dtoStarshipsList = allStarshipsDTO.getAllStarshipsAsListDTOs();
+            for (DTOStarships starship : dtoStarshipsList) {
                 System.out.println(starship.getName());
             }
+
+            Assertions.assertEquals(allStarshipsDTO.getCount(), dtoStarshipsList.size());
         }
 
         @Test
         @DisplayName("Get all Vehicles")
         void getAllVehicles() {
-            for (DTOVehicles vehicle : allVehiclesDTO.getAllVehiclesAsListDTOs()) {
+            List<DTOVehicles> dtoVehiclesList = allVehiclesDTO.getAllVehiclesAsListDTOs();
+            for (DTOVehicles vehicle : dtoVehiclesList) {
                 System.out.println(vehicle.getName());
             }
-        }
-    }
 
-
-
-
-    @Test
-    @DisplayName("Example of using methods inside multiple DTOs")
-    void usingMultipleDTOs() {
-
-        System.out.println("");
-        System.out.println("Person of interest : " + dtoPeople.getName());
-
-        System.out.println("");
-        System.out.println(dtoPeople.getName() + " has been in the following films, and these films have the following planets : ");
-
-        for (DTOFilm film : dtoPeople.getFilmsAsDTOs()) {
-            System.out.println("");
-            System.out.println("---Film : " + film.getTitle() + "---");
-            for (DTOPlanets planet : film.getPlanetsListAsDTOs()) {
-                System.out.println(planet.getName());
-            }
-            System.out.println("");
+            Assertions.assertEquals(allVehiclesDTO.getCount(), dtoVehiclesList.size());
         }
     }
 

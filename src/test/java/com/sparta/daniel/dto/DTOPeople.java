@@ -3,7 +3,6 @@ package com.sparta.daniel.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.sparta.daniel.connector.ConnectionManager;
 import com.sparta.daniel.injector.Injector;
 
 import java.time.LocalDate;
@@ -48,10 +47,10 @@ public class DTOPeople extends ParentDTO {
     private String hair_color;
 
     @JsonProperty("height")
-    private int height;
+    private String height;
 
     @JsonProperty("mass")
-    private int mass;
+    private String mass;
 
     @JsonProperty("skin_color")
     private String skin_color;
@@ -119,11 +118,11 @@ public class DTOPeople extends ParentDTO {
         return hair_color;
     }
 
-    public int getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public int getMass() {
+    public String getMass() {
         return mass;
     }
 
@@ -175,7 +174,7 @@ public class DTOPeople extends ParentDTO {
         List<DTOFilm> dtoFilmList = new ArrayList<>();
         DTOFilm dtoFilmTemporary;
 
-        for(String film : films) {
+        for (String film : films) {
             dtoFilmTemporary = (DTOFilm) Injector.injectDTOGeneric(film);
             dtoFilmList.add(dtoFilmTemporary);
         }
@@ -188,7 +187,7 @@ public class DTOPeople extends ParentDTO {
         List<DTOSpecies> dtoSpeciesList = new ArrayList<>();
         DTOSpecies dtoSpeciesTemporary;
 
-        for(String specimen : species) {
+        for (String specimen : species) {
             dtoSpeciesTemporary = (DTOSpecies) Injector.injectDTOGeneric(specimen);
             dtoSpeciesList.add(dtoSpeciesTemporary);
         }
@@ -201,7 +200,7 @@ public class DTOPeople extends ParentDTO {
         List<DTOStarships> dtoStarshipsList = new ArrayList<>();
         DTOStarships dtoStarshipsTemporary;
 
-        for(String starship : starships) {
+        for (String starship : starships) {
             dtoStarshipsTemporary = (DTOStarships) Injector.injectDTOGeneric(starship);
             dtoStarshipsList.add(dtoStarshipsTemporary);
         }
@@ -220,6 +219,7 @@ public class DTOPeople extends ParentDTO {
 
         return dtoVehiclesList;
     }
+
 
     // Use below for date formatting
 
