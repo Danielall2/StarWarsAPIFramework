@@ -9,12 +9,12 @@ import java.net.http.HttpResponse;
 
 public class ConnectionManager {
 
-    // Inspiration from Manish's ConnectionManager
-
     private static final String BASEURL = "https://swapi.dev/api/";
     private String URL;
 
-    // Want a method which provides a httpResponse so I don't call it every time in test
+    public static String getConnection(String endURL) {
+        return BASEURL + endURL;
+    }
 
     public static HttpResponse<String> getConnectionResponse(String url) {
         HttpClient httpClient = HttpClient.newHttpClient();
@@ -29,12 +29,6 @@ public class ConnectionManager {
         }
 
         return httpResponse;
-    }
-
-    public static String getConnection(String endURL) {
-        // There needs to be a way check that endURL has been entered correctly
-        // Needs to be of form word/number/
-        return BASEURL + endURL;
     }
 
     public static int getStatusCode(String endURL) {
